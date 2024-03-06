@@ -1,5 +1,6 @@
 # The scheduler can assign the Pod to any node within Zone V, as long as there is at least one Pod within Zone V already labeled with env=prod.
 # If there are no Pods with env=prod labels in Zone V, the scheduler will not assign the example Pod to any node in that zone.
+# conditon:  (env=prod --> zone A)
 apiVersion: v1
 kind: Pod
 metadata:
