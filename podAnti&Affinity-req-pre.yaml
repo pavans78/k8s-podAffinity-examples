@@ -1,5 +1,6 @@
 # The scheduler can assign the Pod to any node within Zone V, as long as there is atleast one Pod within Zone V already labeled 
 # with env=dev and preferably the Pods doesn't have labeled with tier=stg within Zone V.
+# conditon: (env=dev --> zone A[must satify) OR (tier!=stg --> zone A) 
 apiVersion: v1
 kind: Pod
 metadata:
