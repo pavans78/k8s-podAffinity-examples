@@ -1,0 +1,31 @@
+# The scheduler can assign the Pod to any node within Zone V, as long as there is a no Pod within Zone V 
+# already labeled with tier=stg and preferably the pods has a label env=dev.
+# even If a pod does the label env=dev, the scheduler still schedules the Pod.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podaffinity
+spec:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: tier
+            operator: In
+            values:
+            - stg
+        topologyKey: topology.kubernetes.io/zone
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 5
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: env
+              operator: In
+              values:
+              - dev
+          topologyKey: topology.kubernetes.io/zone
+  containers:
+  - name: nginx
+    image: nginx
