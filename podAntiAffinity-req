@@ -1,0 +1,20 @@
+# The scheduler can assign the Pod to any node within Zone V, as long as there is no Pod within Zone V already labeled with env=prod.
+# If there are Pods with env=prod labels in Zone V, the scheduler will assign the example Pod to any node in that zone.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podaffinity1
+spec:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: env
+            operator: In
+            values:
+            - prod
+        topologyKey: topology.kubernetes.io/zone
+  containers:
+  - name: nginx
+    image: nginx
